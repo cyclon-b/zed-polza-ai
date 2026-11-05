@@ -106,11 +106,40 @@ async function main() {
     });
     check('initialize: имя сервера', init.serverInfo && init.serverInfo.name === 'polza-ai');
     check('initialize: инструменты объявлены', Boolean(init.capabilities && init.capabilities.tools));
+    check(
+      'initialize: промпты объявлены',
+      Boolean(init.capabilities && init.capabilities.prompts),
+      JSON.stringify(init.capabilities),
+    );
 
     const listed = await request('tools/list');
     const names = (listed.tools || []).map((tool) => tool.name);
     check('tools/list: polza_balance', names.includes('polza_balance'), names.join(', '));
     check('tools/list: polza_config', names.includes('polza_config'), names.join(', '));
+
+    const prompts = await request('prompts/list');
+    const promptNames = (prompts.prompts || []).map((prompt) => prompt.name);
+    check('prompts/list: слеш-команда polza_balance', promptNames.includes('polza_balance'), promptNames.join(', '));
+
+    let unknownPromptError = null;
+    try {
+      await request('prompts/get', { name: 'nope' });
+    } catch (error) {
+      unknownPromptError = error.message;
+    }
+    check('prompts/get: неизвестный промпт отклонён', Boolean(unknownPromptError), String(unknownPromptError));
+
+    let noKeyPromptError = null;
+    try {
+      await request('prompts/get', { name: 'polza_balance' });
+    } catch (error) {
+      noKeyPromptError = error.message;
+    }
+    check(
+      'prompts/get без ключа: подсказка про api_key',
+      String(noKeyPromptError).includes('api_key'),
+      String(noKeyPromptError),
+    );
 
     const configResult = await request('tools/call', { name: 'polza_config', arguments: {} });
     const configText = configResult.content[0].text;
@@ -136,6 +165,14 @@ async function main() {
         const badKey = await networkRequest('tools/call', { name: 'polza_balance', arguments: {} });
         const text = String(badKey.content[0].text);
         check('сеть: неверный ключ → 401', badKey.isError === true && text.includes('401'), text);
+
+        let promptError = null;
+        try {
+          await networkRequest('prompts/get', { name: 'polza_balance' });
+        } catch (error) {
+          promptError = error.message;
+        }
+        check('сеть: промпт с неверным ключом → 401', String(promptError).includes('401'), String(promptError));
       } finally {
         networkChild.kill();
       }

@@ -1,6 +1,6 @@
 //! Расширение Zed для Polza.ai.
 //!
-//! Даёт слеш-команду `/polza-balance` в панели агента. Тяжёлую часть
+//! Даёт слеш-команду `/polza_balance` в панели агента. Тяжёлую часть
 //! (чтение polza.yaml, запрос баланса) делает Node-скрипт `server/balance-cli.mjs`:
 //! у WASM-расширения нет доступа к файловой системе и своему окружению.
 //!
@@ -11,7 +11,7 @@ use zed_extension_api as zed;
 use zed_extension_api::process::Command;
 use zed_extension_api::{SlashCommand, SlashCommandOutput, SlashCommandOutputSection};
 
-const BALANCE_COMMAND: &str = "polza-balance";
+const BALANCE_COMMAND: &str = "polza_balance";
 
 struct PolzaAi;
 

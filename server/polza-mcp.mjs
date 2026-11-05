@@ -19,7 +19,7 @@ import {
   PolzaError,
 } from './polza-balance.mjs';
 
-const SERVER_INFO = { name: 'polza-ai', title: 'Polza.ai', version: '0.1.0' };
+const SERVER_INFO = { name: 'polza-ai', title: 'Polza.ai', version: '0.2.0' };
 const SUPPORTED_PROTOCOLS = ['2024-11-05', '2025-03-26', '2025-06-18'];
 
 const TOOLS = [
@@ -78,6 +78,15 @@ const TOOLS = [
   },
 ];
 
+// Промпты MCP Zed показывает в панели агента как слеш-команды (/polza_balance).
+const PROMPTS = [
+  {
+    name: 'polza_balance',
+    title: 'Баланс Polza.ai',
+    description: 'Показать баланс организации Polza.ai одной командой.',
+  },
+];
+
 function log(message) {
   process.stderr.write(`[polza-ai] ${message}\n`);
 }
@@ -102,6 +111,29 @@ function negotiateProtocol(requested) {
 
 function textResult(text, isError = false) {
   return { content: [{ type: 'text', text }], isError };
+}
+
+async function getPrompt(name) {
+  if (name !== 'polza_balance') {
+    throw new PolzaError('UNKNOWN_PROMPT', `Неизвестный промпт: ${name}`);
+  }
+
+  const result = await fetchBalance();
+  // Путь к конфигу в отчёте для слеш-команды лишний.
+  const report = balanceToMarkdown({ ...result, configPath: null });
+
+  return {
+    description: 'Баланс Polza.ai',
+    messages: [
+      {
+        role: 'user',
+        content: {
+          type: 'text',
+          text: `Покажи пользователю отчёт о балансе Polza.ai. Выведи его без изменений, без вступлений и без вызова инструментов:\n\n${report}`,
+        },
+      },
+    ],
+  };
 }
 
 async function callTool(name, args) {
@@ -131,10 +163,10 @@ async function handleRequest(message) {
     case 'initialize':
       reply(id, {
         protocolVersion: negotiateProtocol(params.protocolVersion),
-        capabilities: { tools: {} },
+        capabilities: { tools: {}, prompts: {} },
         serverInfo: SERVER_INFO,
         instructions:
-          'Инструмент polza_balance показывает баланс организации Polza.ai. Ключ и адреса берутся из polza.yaml.',
+          'Инструмент polza_balance и слеш-команда /polza_balance показывают баланс организации Polza.ai. Ключ и адреса берутся из polza.yaml.',
       });
       return;
 
@@ -166,8 +198,24 @@ async function handleRequest(message) {
     }
 
     case 'prompts/list':
-      reply(id, { prompts: [] });
+      reply(id, { prompts: PROMPTS });
       return;
+
+    case 'prompts/get': {
+      const name = params.name;
+      if (!name) {
+        replyError(id, -32602, 'Не указано имя промпта');
+        return;
+      }
+      try {
+        reply(id, await getPrompt(name));
+      } catch (error) {
+        const code = error instanceof PolzaError && error.code === 'UNKNOWN_PROMPT' ? -32602 : -32603;
+        log(`prompts/get ${name} → ${error.code || 'ERROR'}: ${error.message}`);
+        replyError(id, code, error.message || 'Не удалось получить промпт');
+      }
+      return;
+    }
 
     case 'resources/list':
       reply(id, { resources: [] });

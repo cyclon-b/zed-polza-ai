@@ -1,0 +1,17 @@
+[
+  {
+    "label": "Polza: баланс",
+    "command": "node",
+    "args": ["server/balance-cli.mjs"],
+    "reveal": "no_focus",
+    "allow_concurrent_runs": true
+  },
+  {
+    "label": "Polza: баланс в заголовке вкладки",
+    "command": "node",
+    "args": ["scripts/balance-watch.mjs"],
+    "reveal": "no_focus",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": true
+  }
+]
