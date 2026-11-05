@@ -4,6 +4,7 @@ description = "Баланс Polza.ai: слеш-команда /polza-balance п�
 version = "0.1.0"
 schema_version = 1
 authors = ["Gennady Artamonov"]
+repository = "https://github.com/cyclon-b/zed-polza-ai"
 
 [slash_commands.polza-balance]
 description = "Показать баланс организации Polza.ai"
