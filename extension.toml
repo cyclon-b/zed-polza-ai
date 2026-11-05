@@ -1,0 +1,12 @@
+id = "polza-ai"
+name = "Polza.ai"
+description = "Баланс Polza.ai: слеш-команда /polza-balance показывает остаток, резерв и доступную сумму."
+version = "0.1.0"
+schema_version = 1
+authors = ["Gennady Artamonov"]
+
+[slash_commands.polza-balance]
+description = "Показать баланс организации Polza.ai"
+requires_argument = false
+
+[context_servers.polza-ai]

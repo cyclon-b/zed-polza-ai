@@ -1,0 +1,11 @@
+{
+  "context_servers": {
+    "polza-ai": {
+      "command": "node",
+      "args": ["D:/path/to/zed-polza-ai/server/polza-mcp.mjs"],
+      "env": {
+        "POLZA_CONFIG": "D:/path/to/zed-polza-ai/polza.yaml"
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+[package]
+name = "polza_ai"
+version = "0.1.0"
+edition = "2021"
+authors = ["Gennady Artamonov"]
+publish = false
+license-file = "LICENSE"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+zed_extension_api = "0.7.0"
+
+[profile.release]
+opt-level = "s"
+lto = true
+strip = true

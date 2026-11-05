@@ -1,0 +1,16 @@
+# Скопируйте в polza.yaml и впишите ключ из личного кабинета Polza.ai.
+#
+# Расширение Zed — это WASM-модуль без доступа к файловой системе, поэтому
+# YAML читает процесс MCP-сервера (Node), а не сам плагин.
+
+api_key: "YOUR_POLZA_AI_API_KEY"
+api_url: "https://polza.ai/api/v1"
+balance_url: "https://polza.ai/api/v2/balance"
+
+currency: "₽"
+locale: "ru-RU"
+
+timeout_ms: 10000
+cache_ttl_ms: 1000
+
+verbose: true

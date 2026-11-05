@@ -1,0 +1,100 @@
+PROPRIETARY SOURCE-AVAILABLE LICENSE
+Version 1.0
+
+Copyright (c) 2026 Gennady Artamonov.
+All rights reserved.
+
+This License governs use of the software made available with it (the
+"Software"): the Zed Polza.ai extension, including its source code, scripts,
+configuration files, documentation, and any accompanying materials.
+
+By installing, copying, or using the Software, You accept this License. If You
+do not accept it, do not install or use the Software.
+
+1. DEFINITIONS
+
+"Licensor" means Gennady Artamonov, the copyright holder named above.
+
+"You" means the individual or legal entity that exercises rights under this
+License.
+
+"Use" means installing and running the Software for its intended purpose.
+
+"Modify" means to change, adapt, translate, or create any derivative work of
+the Software, in whole or in part, including by altering, adding, or removing
+code, files, or functionality.
+
+"Distribute" means to provide the Software to any third party by any means,
+including publication, transfer, sublicensing, rental, lease, lending, or
+making it available over a network.
+
+"Sell" means to exchange the Software, or any product, service, or offering
+based on it, for money or other consideration.
+
+2. GRANT OF LICENSE
+
+Subject to Your compliance with this License, the Licensor grants You a
+worldwide, royalty-free, non-exclusive, non-transferable, revocable license to
+Use the Software, including for Your own internal business purposes.
+
+3. RESTRICTIONS
+
+You must not:
+
+(a) Modify the Software or create any derivative work based on it;
+
+(b) Distribute the Software, or make it available to any third party;
+
+(c) Sell, resell, or otherwise commercialize the Software;
+
+(d) Sell, license, or otherwise commercialize any product, service, or
+    offering that is based on, incorporates, or is derived from the Software;
+
+(e) Use the Software to develop a product or service that competes with it;
+
+(f) Remove, alter, or obscure any copyright, license, or attribution notice;
+
+(g) Sublicense or transfer any of the rights granted to You.
+
+4. RESERVATION OF RIGHTS
+
+The Licensor reserves all rights not expressly granted in this License. No
+title to or ownership of the Software is transferred to You. You receive no
+rights to the Licensor's trademarks or other intellectual property except as
+expressly stated here.
+
+5. CONTRIBUTIONS
+
+The Licensor does not accept contributions to the Software unless separately
+agreed in writing. Any material submitted without such agreement remains the
+property of the Licensor, and You grant the Licensor a perpetual, irrevocable,
+worldwide, royalty-free license to use, modify, and distribute it.
+
+6. NO WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. THE LICENSOR DOES NOT
+WARRANT THAT THE SOFTWARE WILL BE ERROR-FREE OR UNINTERRUPTED.
+
+7. LIMITATION OF LIABILITY
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE LICENSOR SHALL NOT BE LIABLE FOR
+ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY
+LOSS OF PROFITS, DATA, OR GOODWILL, ARISING FROM OR RELATED TO THE SOFTWARE OR
+THIS LICENSE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. THE
+LICENSOR'S TOTAL LIABILITY UNDER THIS LICENSE SHALL NOT EXCEED THE AMOUNT YOU
+PAID FOR THE SOFTWARE (IF ANY).
+
+8. TERMINATION
+
+This License terminates automatically if You breach any of its terms. On
+termination, You must stop using the Software and delete all copies in Your
+possession or control. Sections 3 through 9 survive termination.
+
+9. MISCELLANEOUS
+
+If any provision of this License is held unenforceable, the remaining
+provisions remain in full force. This License is the entire agreement between
+You and the Licensor regarding the Software and supersedes any prior
+agreements on that subject.
