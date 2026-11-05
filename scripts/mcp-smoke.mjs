@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // Смоук-тест MCP-сервера: поднимает его как дочерний процесс и проверяет
 // handshake, список инструментов и диагностику конфига — без сетевого ключа.
+// Тест герметичен: работает с временным конфигом и не читает локальный polza.yaml,
+// где может лежать реальный ключ.
 //
 //   node scripts/mcp-smoke.mjs
 //
@@ -8,7 +10,8 @@
 // неверным) ключом и ждёт 401 от Polza.ai.
 
 import { spawn } from 'node:child_process';
-import { EOL } from 'node:os';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { EOL, tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { createInterface } from 'node:readline';
 import { fileURLToPath } from 'node:url';
@@ -16,6 +19,11 @@ import { fileURLToPath } from 'node:url';
 const moduleDir = dirname(fileURLToPath(import.meta.url));
 const root = resolve(moduleDir, '..');
 const serverPath = join(root, 'server', 'polza-mcp.mjs');
+
+// Временный конфиг без ключа: тест не зависит от polza.yaml разработчика.
+const tempDir = mkdtempSync(join(tmpdir(), 'polza-smoke-'));
+const emptyConfigPath = join(tempDir, 'polza.yaml');
+writeFileSync(emptyConfigPath, 'api_key: ""', 'utf8');
 
 const withNetwork = process.argv.includes('--network');
 const failures = [];
@@ -87,7 +95,7 @@ function createClient(child) {
 async function main() {
   process.stdout.write(`MCP-сервер: ${serverPath}${EOL}`);
 
-  const child = startServer({ POLZA_CONFIG: join(root, 'polza.yaml'), POLZA_API_KEY: '' });
+  const child = startServer({ POLZA_CONFIG: emptyConfigPath, POLZA_API_KEY: '' });
   const request = createClient(child);
 
   try {
@@ -122,7 +130,7 @@ async function main() {
 
     if (withNetwork) {
       child.kill();
-      const networkChild = startServer({ POLZA_CONFIG: join(root, 'polza.yaml'), POLZA_API_KEY: 'test-key' });
+      const networkChild = startServer({ POLZA_CONFIG: emptyConfigPath, POLZA_API_KEY: 'test-key' });
       const networkRequest = createClient(networkChild);
       try {
         const badKey = await networkRequest('tools/call', { name: 'polza_balance', arguments: {} });
@@ -134,6 +142,7 @@ async function main() {
     }
   } finally {
     child.kill();
+    rmSync(tempDir, { recursive: true, force: true });
   }
 
   if (failures.length > 0) {
